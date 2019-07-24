@@ -24,7 +24,7 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.0",
+    "@babel/polyfill": "^7.4.4",
     "jquery": "^3.3.1"
   },
   "author": "",

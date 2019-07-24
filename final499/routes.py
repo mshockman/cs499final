@@ -7,3 +7,12 @@ def includeme(config):
 
     config.add_route('stock', '/stock')
     config.add_route('delete_stock', '/delete-stock')
+
+    config.add_route('api_stocks_read', '/api/stocks/read')
+    config.add_route('api_stocks_create', '/api/stocks/create')
+    config.add_route('api_stocks_update', '/api/stocks/update')
+    config.add_route('api_stocks_delete', '/api/stocks/delete')
+    config.add_route('api_stocks_list', '/api/stocks/list')
+    config.add_route('api_stocks_top', '/api/stocks/top')
+
+    config.add_route('test_api_page', '/test/api')

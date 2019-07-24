@@ -21,6 +21,17 @@ class ValidationException(Exception):
         else:
             return []
 
+    def as_dict(self):
+        r = {}
+
+        for key, errors in self.nodes.items():
+            r[key] = []
+
+            for error in errors:
+                r[key].append(str(error))
+
+        return r
+
 
 # Used to mark that a field should be dropped.
 DROP = object()

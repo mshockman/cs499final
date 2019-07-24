@@ -13,7 +13,8 @@ export default [{
     mode: "development",
 
     entry: {
-        'cs499': './src/js/app.js'
+        'cs499': './src/js/app.js',
+        'testapi': './src/js/testapi.js'
     },
 
     resolve: {

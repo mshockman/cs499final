@@ -9,8 +9,40 @@ body {
   padding: 1rem;
 }
 
-.form_error {
-  color: #bc2131;
+.tab-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #bbb;
+}
+.tab-nav .tab-btn {
+  padding: 5px;
+  cursor: pointer;
+}
+.tab-nav .tab-btn.active {
+  background-color: cadetblue;
+}
+
+.tab-pane {
+  display: none;
+}
+.tab-pane.open {
+  display: block;
+}
+
+.main-menu {
+  border: 1px solid #bbb;
+  display: flex;
+  flex-direction: row;
+  background-color: #f9f9f9;
+}
+.main-menu a {
+  padding: 5px;
+}
+.main-menu a:hover {
+  background-color: #ddd;
+  text-decoration: none;
 }
 
 /*# sourceMappingURL=style.css.map */

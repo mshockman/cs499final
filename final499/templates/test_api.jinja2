@@ -1,0 +1,65 @@
+{% extends '_template.jinja2' %}
+
+{% block head %}
+    <title>API Test Page</title>
+
+    <style type="text/css">
+        #output {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+
+    <script type="text/javascript" src="{{ request.static_url('final499:static/js/testapi.bundle.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div><label for="output">Response</label></div>
+    <textarea id="output" readonly></textarea>
+    <hr>
+
+    <ul class="tab-nav mb-2" id="tabbar">
+        <li class="tab-btn active" data-tab="#read_test">Read</li>
+        <li class="tab-btn" data-tab="#create_test">Create</li>
+        <li class="tab-btn" data-tab="#update_test">Update</li>
+        <li class="tab-btn" data-tab="#delete_test">Delete</li>
+        <li class="tab-btn" data-tab="#list_test">List</li>
+        <li class="tab-btn" data-tab="#top_test">Top</li>
+    </ul>
+
+    <div id="read_test" class="tab-pane open">
+        <div><label>Ticker: <input type="text" name="ticker" id="read_test_ticker" /></label></div>
+        <button type="button" id="api-read-btn">Read</button>
+    </div>
+
+    <div id="create_test" class="tab-pane">
+        <div>
+            {% include 'stock_form.jinja2' %}
+        </div>
+
+        <button type="button" id="api-create-btn">Create</button>
+    </div>
+
+    <div id="update_test" class="tab-pane">
+        <div>
+            {% include 'stock_form.jinja2' %}
+        </div>
+
+        <button type="button" id="api-update-btn">Update</button>
+    </div>
+
+    <div id="delete_test" class="tab-pane">
+        <div><label>Ticker(s): <input type="text" name="tickers" id="delete_test_tickers" /></label></div>
+        <button type="button" id="api-delete-btn">Delete</button>
+    </div>
+
+    <div id="list_test" class="tab-pane">
+        <div><label>Ticker(s): <input type="text" name="tickers" id="list_test_tickers" /></label></div>
+        <button type="button" id="api-list-btn">List</button>
+    </div>
+
+    <div id="top_test" class="tab-pane">
+        <div><label>Industry: <input type="text" name="industry" value="Exchange Traded Fund" id="top_industry" /></label></div>
+        <button type="button" id="api-top-btn">Top</button>
+    </div>
+{% endblock %}
