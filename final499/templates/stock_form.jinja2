@@ -1,0 +1,28 @@
+
+<form method="post" action="{{ request.current_route_url(_query=request.GET) }}">
+    {% if form.errors %}
+        <div class="alert alert-danger">Form Validation Failed</div>
+    {% endif %}
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Create New Stock</h5>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="id" value="" />
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.name }}-field">{{ field.label }}</label>
+                    {% if field.errors %}
+                        <div class="form_error">Error: {{ field.errors[0] }}</div>
+                    {% endif %}
+                    <div><input type="{{ field.input_type }}" name="{{ field.name }}" class="form-control" id="{{ field.name }}-field"{% if field.value %} value="{{ field.value }}"{% endif %}/></div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</form>

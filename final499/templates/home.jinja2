@@ -1,0 +1,132 @@
+{% extends '_template.jinja2' %}
+
+{% block content %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+
+    <h3>Stock Information</h3>
+
+    <nav class="mb-2">
+        <span class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" data-toggle="modal" data-target="#file-upload-modal">Import File</a>
+            <a class="dropdown-item" href="{{ request.route_url('export_stock_file') }}">Export File</a>
+          </div>
+        </span>
+
+        <a href="{{ request.route_url('stock') }}"><button class="btn btn-secondary" type="button">Create Stock</button></a>
+    </nav>
+
+
+    <div class="overflow-auto container-fluid stock-output">
+    <table class="table" id="stock-table">
+        <thead class="thead-light">
+            <tr>
+                <th data-column="ticker">Ticker</th>
+                <th data-column="sector">Sector</th>
+                <th data-column="change_from_open">Change From Open</th>
+                <th data-column="performance_ytd">Performance (YTD)</th>
+                <th data-column="performance_week">Performance (Week)</th>
+                <th data-column="performance_quarter">Performance (Quarter)</th>
+                <th data-column="200_day_simple_moving_average">200-Day Simple Moving Average</th>
+                <th data-column="52_week_high">52-Week High</th>
+                <th data-column="change">Change</th>
+                <th data-column="volatility_week">Volatility (Week)</th>
+                <th data-column="country">Country</th>
+                <th data-column="50_day_low">50-Day Low</th>
+                <th data-column="price">Price</th>
+                <th data-column="50_day_high">50-Day High</th>
+                <th data-column="dividend_yield">Dividend Yield</th>
+                <th data-column="industry">Industry</th>
+                <th data-column="52_week_low">52-Week Low</th>
+                <th data-column="average_true_range">Average True Range</th>
+                <th data-column="company">Company</th>
+                <th data-column="gap">Gap</th>
+                <th data-column="relative_volume">Relative Volume</th>
+                <th data-column="volatility_month">Volatility (Month)</th>
+                <th data-column="volume">Volume</th>
+                <th data-column="short_ratio">Short Ratio</th>
+                <th data-column="performance_half_year">Performance (Half Year)</th>
+                <th data-column="relative_strength_index_14">Relative Strength Index (14)</th>
+                <th data-column="20_day_simple_moving_average">20-Day Simple Moving Average</th>
+                <th data-column="performance_month">Performance (Month)</th>
+                <th data-column="performance_year">Performance (Year)</th>
+                <th data-column="average_volume">Average Volume</th>
+                <th data-column="50_day_simple_moving_average">50-Day Simple Moving Average</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                <tr data-id="{{ stock.id }}">
+                    <td><a href="{{ request.route_url('stock') }}?id={{ stock.id }}">{{ stock.ticker }}</a></td>
+                    <td>{{ stock.sector }}</td>
+                    <td>{{ stock.change_from_open }}</td>
+                    <td>{{ stock.performance_ytd }}</td>
+                    <td>{{ stock.performance_week }}</td>
+                    <td>{{ stock.performance_quarter }}</td>
+                    <td>{{ stock.simple_moving_average_200_day }}</td>
+                    <td>{{ stock.high_52_week }}</td>
+                    <td>{{ stock.change }}</td>
+                    <td>{{ stock.volatility_week }}</td>
+                    <td>{{ stock.country }}</td>
+                    <td>{{ stock.low_50_day }}</td>
+                    <td>{{ stock.price }}</td>
+                    <td>{{ stock.high_50_day }}</td>
+                    <td>{{ stock.dividend_yield }}</td>
+                    <td>{{ stock.industry }}</td>
+                    <td>{{ stock.low_52_week }}</td>
+                    <td>{{ stock.average_true_range }}</td>
+                    <td>{{ stock.company }}</td>
+                    <td>{{ stock.gap }}</td>
+                    <td>{{ stock.relative_volume }}</td>
+                    <td>{{ stock.volatility_month }}</td>
+                    <td>{{ stock.volume }}</td>
+                    <td>{{ stock.short_ratio }}</td>
+                    <td>{{ stock.performance_half_year }}</td>
+                    <td>{{ stock.relative_strength_index_14 }}</td>
+                    <td>{{ stock.simple_moving_average_20_day }}</td>
+                    <td>{{ stock.performance_month }}</td>
+                    <td>{{ stock.performance_year }}</td>
+                    <td>{{ stock.average_volume }}</td>
+                    <td>{{ stock.simple_moving_average_50_day }}</td>
+                    <td><form method="POST" style="margin: 0;" action="{{ request.route_url('delete_stock') }}?id={{ stock.id }}"><button type="submit">Delete</button></form></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="modal fade" id="file-upload-modal">
+        <form class="modal-dialog" method="post" enctype="multipart/form-data" action="{{ request.route_url('import_stock_file') }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Stock File</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" name="stocks">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="stock-form-modal">
+    {% with form=stock_form %}
+    {% include 'stock_form.jinja2' %}
+    {% endwith %}
+    </div>
+{% endblock %}
