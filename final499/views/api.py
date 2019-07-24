@@ -28,6 +28,11 @@ def api_stocks_read_view(request):
 
 @view_config(route_name="api_stocks_create", renderer="json")
 def api_stocks_create_view(request):
+    """
+    Creates a new stock entry.
+    :param request:
+    :return:
+    """
     form = StockForm(request.dbsession)
 
     try:
@@ -48,6 +53,11 @@ def api_stocks_create_view(request):
 
 @view_config(route_name="api_stocks_update", renderer="json")
 def api_stocks_update_view(request):
+    """
+    Updates an already existing stock entry.
+    :param request:
+    :return:
+    """
     stock_data = request.json
 
     try:
@@ -84,6 +94,11 @@ def api_stocks_update_view(request):
 
 @view_config(route_name="api_stocks_delete", renderer="json")
 def api_stocks_delete_view(request):
+    """
+    Deletes one or more stock entries by ticker.
+    :param request:
+    :return:
+    """
     tickers = request.GET.getall('tickers')
 
     results = request.dbsession.query(Stock).filter(
@@ -97,6 +112,11 @@ def api_stocks_delete_view(request):
 
 @view_config(route_name="api_stocks_list", renderer="json")
 def api_stocks_list_view(request):
+    """
+    Lists one or more stock entries by ticker.
+    :param request:
+    :return:
+    """
     """
     Returns a list of stocks for each ticker passed.
     :param request:
@@ -147,6 +167,11 @@ def api_stocks_top_view(request):
 
 @view_config(route_name='test_api_page', renderer="../templates/test_api.jinja2")
 def test_api_view(request):
+    """
+    Creates a view for testing the api.
+    :param request:
+    :return:
+    """
     return {
         'form': StockForm(request.dbsession)
     }

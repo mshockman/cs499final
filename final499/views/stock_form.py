@@ -42,6 +42,9 @@ STOCK_FIELDS = [
 
 
 class StockForm(Form):
+    """
+    Form for saving and validating the stock model.
+    """
     def __init__(self, dbsession, model=None, *args, **kwargs):
         super().__init__(STOCK_FIELDS, *args, **kwargs)
 

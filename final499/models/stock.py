@@ -83,6 +83,10 @@ class Stock(Base):
     simple_moving_average_50_day = Column(DECIMAL(16, 4), nullable=False)
 
     def as_dict(self):
+        """
+        Converts model to dict.
+        :return:
+        """
         r = {}
 
         for key in self.FILE_KEY_MAP.keys():

@@ -36,6 +36,7 @@ body {
   display: flex;
   flex-direction: row;
   background-color: #f9f9f9;
+  margin-bottom: 1rem;
 }
 .main-menu a {
   padding: 5px;

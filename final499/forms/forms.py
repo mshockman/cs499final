@@ -1,27 +1,55 @@
+"""
+A simple form validation library.
+"""
+
 from collections import OrderedDict
 import decimal
 
 
 class ValidationException(Exception):
+    """
+    An exception for validation failures.  Should be found to the field or form that is validated.
+    ValidationException can also act as a list of other ValidationExceptions.  For example, a
+    forms main ValidationException acts as the parent for all of the forms fields.
+    """
     def __init__(self, msg, bound=None, value=None):
         super().__init__(msg)
+        # Stores child exceptions in a list of the fields they are attached to.
         self.nodes = OrderedDict()
+
+        # Form or field that was validated.
         self.bound = bound
+
+        # Invalid value.
         self.value = value
 
     def add_error(self, validation_error):
+        """
+        Appends a child ValidationException.
+        :param validation_error:
+        :return:
+        """
         if validation_error.bound.name not in self.nodes:
             self.nodes[validation_error.bound.name] = []
 
         self.nodes[validation_error.bound.name].append(validation_error)
 
     def get_field_error_list(self, field_name):
+        """
+        Returns a list of all exceptions for the given field.
+        :param field_name:
+        :return:
+        """
         if field_name in self.nodes:
             return self.nodes[field_name]
         else:
             return []
 
     def as_dict(self):
+        """
+        Converts the exception into a json serializable dictionary.
+        :return:
+        """
         r = {}
 
         for key, errors in self.nodes.items():
@@ -38,6 +66,9 @@ DROP = object()
 
 
 class StringType:
+    """
+    Converts a field value to a string and does some simple string validation.
+    """
     def __init__(self, empty=False, min_length=None, max_length=None):
         self.empty = empty
         self.min_length = min_length
@@ -46,14 +77,17 @@ class StringType:
     def __call__(self, value):
         value = str(value)
 
+        # Test to see if empty string.
         if value == "" and self.empty is False:
             raise ValidationException("Field cannot be empty")
         elif value == "":
             return value
 
+        # Test for min length
         if self.min_length is not None and len(value) < self.min_length:
             raise ValidationException("Value below minimum length")
 
+        # Test for max length
         if self.max_length is not None and len(value) > self.max_length:
             raise ValidationException("Value above maximum length")
 
@@ -61,6 +95,9 @@ class StringType:
 
 
 class DecimalType:
+    """
+    Converts a form field value to a Decimal object and does simple number validation.
+    """
     def __init__(self, max_value=None, min_value=None):
         self.max_value = max_value
         self.min_value = min_value
@@ -165,6 +202,9 @@ class FormField:
 
 
 class BoundField:
+    """
+    Binds a form field to a form.
+    """
     def __init__(self, form, field):
         self.form = form
         self.field = field
@@ -213,9 +253,17 @@ class BoundField:
 
 
 class Form:
+    """
+    Helper class that is used to display and manager form validation.
+    """
     def __init__(self, fields, data=None, prefix=None, validator=None, name="__form__"):
+        # Form fields
         self.fields = OrderedDict()
+
+        # Form data to display.
         self.data = data
+
+        # Validation errors.
         self.errors = None
 
         # Used to keep consistancy with field nodes.
@@ -232,6 +280,12 @@ class Form:
             self.fields[field.name] = field
 
     def clean(self, form_data):
+        """
+        Validates the form data against the form.  If a ValidationException is encountered a new form is created
+        with the attached exception that can be redisplayed to the user.
+        :param form_data:
+        :return:
+        """
         r = {}
         error = None
 
@@ -283,8 +337,17 @@ class Form:
         return r
 
     def __iter__(self):
+        """
+        Iterate through form fields.
+        :return:
+        """
         for field in self.fields.values():
             yield field
 
     def __getitem__(self, item):
+        """
+        Get form field by name.
+        :param item:
+        :return:
+        """
         return self.fields[item]
