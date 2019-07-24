@@ -176,42 +176,6 @@ def export_stock_file_view(request):
     return response
 
 
-# @view_config(route_name="save_stock_view")
-# def save_stock_view(request):
-#     form = Form(STOCK_FIELDS)
-#     data = form.clean(request.POST)
-#     _id = data.pop('id', None)
-#
-#     if _id:
-#         stock = request.dbsession.query(Stock).filter(
-#             Stock.id == _id
-#         ).one()
-#     else:
-#         stock = Stock()
-#
-#     Stock.import_from_dict(stock, data)
-#     request.dbsession.add(stock)
-#
-#     return HTTPFound(request.route_url('home'))
-#
-#
-# @view_config(route_name="get_stock_form", renderer="../templates/stock_form.jinja2")
-# def get_stock_form(request):
-#     _id = request.GET['id']
-#
-#     stock = request.dbsession.query(Stock).filter(
-#         Stock.id == _id
-#     ).one()
-#
-#     stock_form_data = stock.as_dict()
-#
-#     form = Form(STOCK_FIELDS, stock_form_data)
-#
-#     return {
-#         'form': form
-#     }
-
-
 @view_config(route_name="stock", renderer="../templates/stocks.jinja2", request_method="GET")
 def stock_view(request):
     _id = request.GET.get('id', None)
