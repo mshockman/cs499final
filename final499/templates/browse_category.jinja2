@@ -1,0 +1,25 @@
+{% extends '_template.jinja2' %}
+
+{% macro build_category_tree(categories, depth=1) %}
+    {% for category in categories %}
+        <div data-depth="{{ depth }}" data-id="{{ category.id }}" data-children="{{ category.children.__len__() }}" class="">
+            <div style="padding-left: {{ (depth - 1) * 1.5 }}rem;">{{ category.name }}</div>
+            {% if category.children %}
+                    <div>{{ build_category_tree(category.children, depth + 1) }}</div>
+            {% endif %}
+        </div>
+
+    {% endfor %}
+{% endmacro %}
+
+{% block content %}
+    <div>
+        <button type="button">Create Category</button>
+        <button type="button">Remove Category</button>
+    </div>
+
+    <h3>Manage Categories</h3>
+    <div class="treeview">
+    {{ build_category_tree(categories) }}
+    </div>
+{% endblock %}
