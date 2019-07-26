@@ -62,9 +62,11 @@ class Category(Base):
             )
         )
 
-        dbsession.execute(query)
+        count = dbsession.execute(query)
+        dbsession.flush()
         Category.deallocate_space(dbsession, start, size)
         dbsession.expire_all()
+        return count
 
     def move_to(self, dbsession, position):
         delta = self.left - position

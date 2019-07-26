@@ -2,24 +2,33 @@
 
 {% macro build_category_tree(categories, depth=1) %}
     {% for category in categories %}
-        <div data-depth="{{ depth }}" data-id="{{ category.id }}" data-children="{{ category.children.__len__() }}" class="">
-            <div style="padding-left: {{ (depth - 1) * 1.5 }}rem;">{{ category.name }}</div>
+        <div data-depth="{{ depth }}" data-id="{{ category.id }}" data-children="{{ category.children.__len__() }}" class="tree-menuitem{% if category.children %} has-children{% endif %}">
+            <div style="padding-left: {{ depth * 1.5 }}rem;" class="tree-item">{{ category.name }}</div>
             {% if category.children %}
-                    <div>{{ build_category_tree(category.children, depth + 1) }}</div>
+                    <div class="tree-menu">{{ build_category_tree(category.children, depth + 1) }}</div>
             {% endif %}
         </div>
 
     {% endfor %}
 {% endmacro %}
 
+{% block head %}
+    <title>Browse Categories</title>
+
+    <script type="text/javascript" src="{{ request.static_url('final499:static/js/category.bundle.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     <div>
-        <button type="button">Create Category</button>
-        <button type="button">Remove Category</button>
+        <button type="button" id="create-category-btn">Create Category</button>
+        <button type="button" id="remove-category-btn">Remove Category</button>
     </div>
 
     <h3>Manage Categories</h3>
-    <div class="treeview">
-    {{ build_category_tree(categories) }}
+    <div class="treeview" id="category-tree">
+        <div data-depth="0" data-id="" data-children="{{ categories.__len__() }}" class="tree-menuitem root-node{% if categories %} has-children{% endif %}">
+            <div class="tree-item">Root</div>
+            <div class="tree-menu">{{ build_category_tree(categories) }}</div>
+        </div>
     </div>
 {% endblock %}

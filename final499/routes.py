@@ -16,5 +16,7 @@ def includeme(config):
     config.add_route('api_stocks_top', '/api/stocks/top')
 
     config.add_route('category_view', '/category/view')
+    config.add_route('ajax_create_category', '/ajax/category/create')
+    config.add_route('ajax_remove_category', '/ajax/category/remove')
 
     config.add_route('test_api_page', '/test/api')

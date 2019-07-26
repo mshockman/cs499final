@@ -46,4 +46,12 @@ body {
   text-decoration: none;
 }
 
+.treeview .tree-item {
+  cursor: pointer;
+  user-select: none;
+}
+.treeview .tree-item.active {
+  background-color: cornflowerblue;
+}
+
 /*# sourceMappingURL=style.css.map */

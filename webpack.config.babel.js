@@ -14,7 +14,8 @@ export default [{
 
     entry: {
         'cs499': './src/js/app.js',
-        'testapi': './src/js/testapi.js'
+        'testapi': './src/js/testapi.js',
+        'category': './src/js/category.js'
     },
 
     resolve: {
