@@ -1,6 +1,7 @@
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import NoResultFound
-from ..models import Category
+from sqlalchemy.exc import IntegrityError
+from ..models import Category, Stock, CategoryStock
 from zope.sqlalchemy import mark_changed
 
 import transaction
@@ -81,4 +82,56 @@ def ajax_remove_category(request):
         return {
             'success': True,
             'deleted': _id
+        }
+
+
+@view_config(route_name="ajax_stock_search", renderer="json")
+def ajax_stock_search_view(request):
+    search = request.json['search']
+    category_id = request.json['category']
+
+    # todo filter already in category
+    stocks = request.dbsession.query(Stock).filter(
+        Stock.ticker.ilike('%%%s%%' % search)
+    )[0:20]
+
+    results = [
+        {
+            'ticker': stock.ticker,
+            'id': stock.id,
+        } for stock in stocks
+    ]
+
+    return {
+        'results': results
+    }
+
+
+@view_config(route_name="ajax_get_category_view", renderer='json')
+def ajax_get_category_info_view(request):
+    _id = request.GET['id']
+
+    category = request.dbsession.query(Category).filter(
+        Category.id == _id
+    ).one()
+
+    return category.as_dict()
+
+
+@view_config(route_name="ajax_add_stock_to_category", renderer="json")
+def ajax_add_stock_to_category(request):
+    try:
+        category_stock = CategoryStock()
+        category_stock.stock_id = request.json['stock_id']
+        category_stock.category_id = request.json['category_id']
+        request.dbsession.add(category_stock)
+        request.dbsession.flush()
+
+        return {
+            'id': category_stock.id
+        }
+    except IntegrityError:
+        request.response.status = 400
+        return {
+            'error': "Stock already in category!"
         }

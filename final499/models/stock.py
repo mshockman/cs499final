@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Integer, DateTime, func, DECIMAL
+from sqlalchemy import Column, String, Integer, DateTime, func, DECIMAL, ForeignKey, UniqueConstraint
+from sqlalchemy.orm import relationship
 from .meta import Base
 import decimal
 
@@ -82,6 +83,8 @@ class Stock(Base):
     average_volume = Column(DECIMAL(16, 4), nullable=False)
     simple_moving_average_50_day = Column(DECIMAL(16, 4), nullable=False)
 
+    categories = relationship('CategoryStock')
+
     def as_dict(self):
         """
         Converts model to dict.
@@ -150,3 +153,21 @@ class Stock(Base):
             setattr(stock, key, data[key])
 
         return stock
+
+
+class CategoryStock(Base):
+    __tablename__ = 'category_stock'
+
+    __table_args__ = (
+        UniqueConstraint('category_id', 'stock_id'),
+    )
+
+    id = Column(Integer(), primary_key=True, nullable=False, autoincrement=True, unique=True)
+    created = Column(DateTime(), server_default=func.now())
+    last_modified = Column(DateTime(), onupdate=func.now(), server_default=func.now())
+
+    category_id = Column(Integer(), ForeignKey('category.id', ondelete='CASCADE'), nullable=False)
+    stock_id = Column(Integer(), ForeignKey('stock.id', ondelete='CASCADE'), nullable=False)
+
+    stock = relationship('Stock', lazy='joined')
+    category = relationship('Category', lazy='joined')

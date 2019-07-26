@@ -2,7 +2,7 @@ from pyramid.view import view_config
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound
 from sqlalchemy.orm.exc import NoResultFound
-from ..models import Stock
+from ..models import Stock, Category
 from ..forms import ValidationException
 from .stock_form import StockForm
 
@@ -10,7 +10,8 @@ import json
 
 
 ERROR_MESSAGES = {
-    'stock_not_found': 'Stock Not Found!'
+    'stock_not_found': 'Stock Not Found!',
+    'category_not_found': 'Category Not Found!'
 }
 
 
@@ -22,10 +23,23 @@ SUCCESS_MESSAGES = {
 
 
 @view_config(route_name='home', renderer='../templates/home.jinja2')
-def my_view(request):
-    stocks = request.dbsession.query(Stock).all()
+def list_stocks_view(request):
     error = request.GET.get('error', None)
     success = request.GET.get('success', None)
+    category_id = request.GET.get('category', None)
+
+    if not category_id:
+        stocks = request.dbsession.query(Stock).all()
+    else:
+        try:
+            category = request.dbsession.query(Category).filter(
+                Category.id == category_id
+            ).one()
+
+            stocks = [stock.stock for stock in category.stocks]
+        except NoResultFound:
+            stocks = request.dbsession.query(Stock).all()
+            error = 'category_not_found'
 
     if error:
         if error in ERROR_MESSAGES:

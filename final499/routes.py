@@ -18,5 +18,8 @@ def includeme(config):
     config.add_route('category_view', '/category/view')
     config.add_route('ajax_create_category', '/ajax/category/create')
     config.add_route('ajax_remove_category', '/ajax/category/remove')
+    config.add_route('ajax_stock_search', '/ajax/stock/search')
+    config.add_route('ajax_get_category_view', '/ajax/category/info')
+    config.add_route('ajax_add_stock_to_category', '/ajax/category/add_stock')
 
     config.add_route('test_api_page', '/test/api')

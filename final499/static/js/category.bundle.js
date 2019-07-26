@@ -165,6 +165,461 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/CategoryWindow.js":
+/*!**********************************!*\
+  !*** ./src/js/CategoryWindow.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CategoryWindow; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _StockPickerWindow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StockPickerWindow */ "./src/js/StockPickerWindow.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var TEMPLATE = "\n<div class=\"modal\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Add & Remove Stocks</h3>\n            </div>\n            <div class=\"modal-body\">\n                <div>\n                    <div>\n                        <div class=\"mb-2\"><button type=\"button\" class=\"js-add-stock-btn\">Add Stock</button></div>\n                        <table class=\"table js-stock-table table-bordered\">\n                            <thead>\n                                <tr>\n                                    <th>Stock</th>\n                                    <th>Action</th>\n                                </th>\n                            </thead>    \n                            <tbody></tbody>\n                        </table>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"js-close-category-window\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n";
+
+var CategoryWindow =
+/*#__PURE__*/
+function () {
+  function CategoryWindow(id) {
+    var _this = this;
+
+    _classCallCheck(this, CategoryWindow);
+
+    this.$element = jquery__WEBPACK_IMPORTED_MODULE_0___default()(TEMPLATE);
+    this.id = id;
+    this.stockPicker = new _StockPickerWindow__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.stockPicker.appendTo(this.$element);
+    this.$table = this.$element.find('.js-stock-table');
+    this.$tbody = this.$table.find('tbody');
+    this.$element[0].style.marginTop = '2rem';
+    this.$element.find('.js-add-stock-btn').on('click', function () {
+      _this.stockPicker.clear();
+
+      _this.stockPicker.open();
+    });
+
+    this.stockPicker.onSubmit =
+    /*#__PURE__*/
+    function () {
+      var _ref2 = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(_ref) {
+        var id, ticker;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                id = _ref.id, ticker = _ref.ticker;
+                _context.next = 3;
+                return _this.postStock(id, ticker);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    this.$element.find('.js-close-category-window').on('click', function () {
+      _this.close();
+    });
+    this.loadCategory(id);
+  }
+
+  _createClass(CategoryWindow, [{
+    key: "appendTo",
+    value: function appendTo(selector) {
+      return this.$element.appendTo(selector);
+    }
+  }, {
+    key: "remove",
+    value: function remove() {
+      return this.$element.remove();
+    }
+  }, {
+    key: "open",
+    value: function open() {
+      this.$element.modal('show');
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      this.$element.modal('hide');
+    }
+  }, {
+    key: "addStock",
+    value: function addStock(stock_id, ticker) {
+      this.$tbody.append("<tr data-id=\"".concat(stock_id, "\"><td>").concat(ticker, "</td><td><button type=\"button\" data-action=\"remove\">Remove</button></td></tr>"));
+    }
+  }, {
+    key: "postStock",
+    value: function () {
+      var _postStock = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(stock_id, ticker) {
+        var response, data;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                console.log(this.id, stock_id, ticker);
+                _context2.next = 3;
+                return fetch('/ajax/category/add_stock', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    'category_id': this.id,
+                    'stock_id': stock_id
+                  })
+                });
+
+              case 3:
+                response = _context2.sent;
+                _context2.next = 6;
+                return response.json();
+
+              case 6:
+                data = _context2.sent;
+                // todo check for error
+                this.addStock(stock_id, ticker);
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function postStock(_x2, _x3) {
+        return _postStock.apply(this, arguments);
+      }
+
+      return postStock;
+    }()
+  }, {
+    key: "emptyStocks",
+    value: function emptyStocks() {
+      this.$tbody.empty();
+    }
+  }, {
+    key: "loadCategory",
+    value: function () {
+      var _loadCategory = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(id) {
+        var response, data, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, stock;
+
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return fetch("/ajax/category/info?id=".concat(id));
+
+              case 2:
+                response = _context3.sent;
+                _context3.next = 5;
+                return response.json();
+
+              case 5:
+                data = _context3.sent;
+                this.emptyStocks();
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context3.prev = 10;
+
+                for (_iterator = data.stocks[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                  stock = _step.value;
+                  this.addStock(stock.stock_id, stock.ticker);
+                }
+
+                _context3.next = 18;
+                break;
+
+              case 14:
+                _context3.prev = 14;
+                _context3.t0 = _context3["catch"](10);
+                _didIteratorError = true;
+                _iteratorError = _context3.t0;
+
+              case 18:
+                _context3.prev = 18;
+                _context3.prev = 19;
+
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
+                }
+
+              case 21:
+                _context3.prev = 21;
+
+                if (!_didIteratorError) {
+                  _context3.next = 24;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 24:
+                return _context3.finish(21);
+
+              case 25:
+                return _context3.finish(18);
+
+              case 26:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[10, 14, 18, 26], [19,, 21, 25]]);
+      }));
+
+      function loadCategory(_x4) {
+        return _loadCategory.apply(this, arguments);
+      }
+
+      return loadCategory;
+    }()
+  }]);
+
+  return CategoryWindow;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/StockPickerWindow.js":
+/*!*************************************!*\
+  !*** ./src/js/StockPickerWindow.js ***!
+  \*************************************/
+/*! exports provided: debounce, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "debounce", function() { return debounce; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StockPickerWindow; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+/**
+ * Throttles a function to only be executed after a given wait period.  If multiple calls to the debounced function
+ * are made within that period the waiting period is set.
+ * @param fn
+ * @param wait
+ * @returns {Function}
+ */
+
+function debounce(fn, wait) {
+  var timeout;
+  return function () {
+    var _this = this;
+
+    var args = arguments;
+
+    var later = function later() {
+      timeout = null;
+      fn.apply(_this, args);
+    };
+
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    timeout = setTimeout(later, wait);
+  };
+}
+var TEMPLATE = "\n<div class=\"modal\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Find Stock</h3>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"form-group\">\n                    <input type=\"text\" name=\"search\" class=\"form-control js-stock-search\" placeholder=\"Search\" />\n                </div>\n                <div>\n                    <ul class=\"js-stock-output stock-list\"></ul>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"js-stock-add-btn\">Add</button>\n                <button type=\"button\" class=\"js-close-stock-picker-window\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n";
+
+var StockPickerWindow =
+/*#__PURE__*/
+function () {
+  function StockPickerWindow(category) {
+    var _this2 = this;
+
+    _classCallCheck(this, StockPickerWindow);
+
+    this.$element = jquery__WEBPACK_IMPORTED_MODULE_0___default()(TEMPLATE);
+    this.category = category;
+    this.onSubmit = null;
+    this.$search = this.$element.find('.js-stock-search');
+    this.$search.on('keyup', debounce(
+    /*#__PURE__*/
+    function () {
+      var _ref = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee(event) {
+        var value, response, data;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                value = event.target.value;
+                _context.next = 3;
+                return fetch('/ajax/stock/search', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    'search': value,
+                    'category': _this2.category || ''
+                  })
+                });
+
+              case 3:
+                response = _context.sent;
+                _context.next = 6;
+                return response.json();
+
+              case 6:
+                data = _context.sent;
+
+                _this2.displayStocks(data.results);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }(), 500));
+    this.stockOutput = this.$element.find('.js-stock-output');
+    this.stockOutput.on('click', function (event) {
+      var $target = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).closest('.stock-list-item');
+      if (!$target[0]) return;
+
+      _this2.stockOutput.find('.stock-list-item.selected').removeClass('selected');
+
+      $target.addClass('selected');
+    });
+    this.$element.find('.js-stock-add-btn').on('click', function (event) {
+      var selected = _this2.stockOutput.find('.stock-list-item.selected');
+
+      var id = selected.data('id'),
+          ticker = selected.text();
+
+      if (_this2.onSubmit) {
+        _this2.onSubmit({
+          id: id,
+          ticker: ticker
+        });
+      }
+
+      _this2.close();
+    });
+    this.$element.find('.js-close-stock-picker-window').on('click', function () {
+      _this2.close();
+    });
+  }
+
+  _createClass(StockPickerWindow, [{
+    key: "appendTo",
+    value: function appendTo(selector) {
+      return this.$element.appendTo(selector);
+    }
+  }, {
+    key: "remove",
+    value: function remove() {
+      return this.$element.remove();
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.stockOutput.empty();
+      this.$search.val('');
+    }
+  }, {
+    key: "open",
+    value: function open() {
+      this.$element.modal('show');
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      this.$element.modal('hide');
+    }
+  }, {
+    key: "displayStocks",
+    value: function displayStocks(stocks) {
+      var $output = this.$element.find('.js-stock-output');
+      $output.empty();
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = stocks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var stock = _step.value;
+          $output.append("<li class=\"stock-list-item\" data-id=\"".concat(stock.id, "\">").concat(stock.ticker, "</li>"));
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      console.log(stocks);
+    }
+  }]);
+
+  return StockPickerWindow;
+}();
+
+
+
+/***/ }),
+
 /***/ "./src/js/category.js":
 /*!****************************!*\
   !*** ./src/js/category.js ***!
@@ -178,6 +633,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
 /* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _CategoryWindow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CategoryWindow */ "./src/js/CategoryWindow.js");
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -187,6 +643,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -502,6 +959,30 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(function () {
       return _ref4.apply(this, arguments);
     };
   }());
+  document.querySelector('#add-and-remove-items-btn').addEventListener('click', function (event) {
+    var selected = tree.getSelected(),
+        id = selected ? selected.dataset.id : null;
+
+    if (!id) {
+      alert("No Category Selected!");
+      return;
+    }
+
+    var wnd = new _CategoryWindow__WEBPACK_IMPORTED_MODULE_2__["default"](id);
+    wnd.appendTo(document.body);
+    wnd.open();
+  });
+  document.querySelector('#browse-category-btn').addEventListener('click', function (event) {
+    var selected = tree.getSelected(),
+        id = selected ? selected.dataset.id : null;
+
+    if (!id) {
+      alert("No Category Selected!");
+      return;
+    }
+
+    window.location = "/?category=".concat(id);
+  });
 });
 
 /***/ }),

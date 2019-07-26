@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import '@babel/polyfill';
+import CategoryWindow from './CategoryWindow';
 
 
 class TreeView {
@@ -178,5 +179,31 @@ $(() => {
         }
 
         tree.removeNode(data.deleted);
+    });
+
+    document.querySelector('#add-and-remove-items-btn').addEventListener('click', (event) => {
+        let selected = tree.getSelected(),
+            id = selected ? selected.dataset.id : null;
+
+        if(!id) {
+            alert("No Category Selected!");
+            return;
+        }
+
+        let wnd = new CategoryWindow(id);
+        wnd.appendTo(document.body);
+        wnd.open();
+    });
+
+    document.querySelector('#browse-category-btn').addEventListener('click', (event) => {
+        let selected = tree.getSelected(),
+            id = selected ? selected.dataset.id : null;
+
+        if(!id) {
+            alert("No Category Selected!");
+            return;
+        }
+
+        window.location = `/?category=${id}`;
     });
 });

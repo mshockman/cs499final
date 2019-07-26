@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Integer, DateTime, func, ForeignKey
+from sqlalchemy.orm import relationship
 import sqlalchemy
 from .meta import Base
 
@@ -15,6 +16,8 @@ class Category(Base):
 
     left = Column(Integer(), nullable=False)
     right = Column(Integer(), nullable=False)
+
+    stocks = relationship('CategoryStock')
 
     def append_child_category(self, dbsession, child):
         if not child.id:
@@ -191,3 +194,20 @@ class Category(Base):
     @property
     def size(self):
         return (self.child_count*2) + 2
+
+    def as_dict(self):
+        r = {
+            'id': self.id,
+            'name': self.name,
+            'stocks': []
+        }
+
+        for stock in self.stocks:
+            r['stocks'].append({
+                'id': stock.id,
+                'stock_id': stock.stock_id,
+                'category_id': stock.category_id,
+                'ticker': stock.stock.ticker
+            })
+
+        return r

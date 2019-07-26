@@ -54,4 +54,22 @@ body {
   background-color: cornflowerblue;
 }
 
+.stock-list {
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 200px;
+  overflow-y: scroll;
+}
+.stock-list .stock-list-item {
+  padding: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+.stock-list .stock-list-item.selected {
+  background-color: cornflowerblue;
+}
+
 /*# sourceMappingURL=style.css.map */
