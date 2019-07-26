@@ -9,6 +9,11 @@ import transaction
 
 @view_config(route_name="category_view", renderer="../templates/browse_category.jinja2")
 def browse_categories_view(request):
+    """
+    View for browsing categories.
+    :param request:
+    :return:
+    """
     return {
         'categories': Category.get_full_category_tree(request.dbsession)
     }
@@ -16,6 +21,11 @@ def browse_categories_view(request):
 
 @view_config(route_name="ajax_create_category", renderer="json")
 def ajax_create_category_view(request):
+    """
+    Ajax view that allows the user to create a category.
+    :param request:
+    :return:
+    """
     parent_id = request.json.get('parent', None)
     name = request.json['name']
     parent = None
@@ -54,6 +64,11 @@ def ajax_create_category_view(request):
 
 @view_config(route_name="ajax_remove_category", renderer="json")
 def ajax_remove_category(request):
+    """
+    Ajax view that allows the user to remove a category.
+    :param request:
+    :return:
+    """
     _id = request.json.get('id', None)
     delete_all = request.json.get('deleteAll', False)
 
@@ -87,10 +102,14 @@ def ajax_remove_category(request):
 
 @view_config(route_name="ajax_stock_search", renderer="json")
 def ajax_stock_search_view(request):
-    search = request.json['search']
-    category_id = request.json['category']
+    """
+    Ajax view for find a stock.
 
-    # todo filter already in category
+    :param request:
+    :return:
+    """
+    search = request.json['search']
+
     stocks = request.dbsession.query(Stock).filter(
         Stock.ticker.ilike('%%%s%%' % search)
     )[0:20]
@@ -109,6 +128,12 @@ def ajax_stock_search_view(request):
 
 @view_config(route_name="ajax_get_category_view", renderer='json')
 def ajax_get_category_info_view(request):
+    """
+    Ajax view for getting category info.
+
+    :param request:
+    :return:
+    """
     _id = request.GET['id']
 
     category = request.dbsession.query(Category).filter(
@@ -120,6 +145,12 @@ def ajax_get_category_info_view(request):
 
 @view_config(route_name="ajax_add_stock_to_category", renderer="json")
 def ajax_add_stock_to_category(request):
+    """
+    Ajax view for adding a stock to a category.
+
+    :param request:
+    :return:
+    """
     try:
         category_stock = CategoryStock()
         category_stock.stock_id = request.json['stock_id']

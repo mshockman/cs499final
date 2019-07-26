@@ -3,6 +3,9 @@ import '@babel/polyfill';
 import CategoryWindow from './CategoryWindow';
 
 
+/**
+ * Creates a selectable nested list of items.
+ */
 class TreeView {
     constructor(selector) {
         this.element = document.querySelector(selector);

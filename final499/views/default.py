@@ -114,6 +114,12 @@ def export_stock_file_view(request):
 
 @view_config(route_name="stock", renderer="../templates/stocks.jinja2", request_method="GET")
 def stock_view(request):
+    """
+    View for viewing a single stock.
+
+    :param request:
+    :return:
+    """
     _id = request.GET.get('id', None)
 
     if _id is not None:
@@ -137,6 +143,12 @@ def stock_view(request):
 
 @view_config(route_name="stock", renderer="../templates/stocks.jinja2", request_method="POST")
 def stock_view_post(request):
+    """
+    View for creating or updating stock information.
+
+    :param request:
+    :return:
+    """
     _id = request.GET.get('id', None)
     success = "stock_created"
 
@@ -167,6 +179,12 @@ def stock_view_post(request):
 
 @view_config(route_name="delete_stock", request_method="POST")
 def delete_stock_view(request):
+    """
+    View for deleting a stock.
+
+    :param request:
+    :return:
+    """
     _id = request.GET['id']
 
     request.dbsession.query(Stock).filter(

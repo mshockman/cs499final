@@ -156,6 +156,9 @@ class Stock(Base):
 
 
 class CategoryStock(Base):
+    """
+    An association table that associates stocks to categories.
+    """
     __tablename__ = 'category_stock'
 
     __table_args__ = (

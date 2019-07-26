@@ -34,7 +34,9 @@ const TEMPLATE = `
 `;
 
 
-
+/**
+ * Creates a modal window dialog for managing the stock information for a category.
+ */
 export default class CategoryWindow {
     constructor(id) {
         this.$element = $(TEMPLATE);

@@ -5,6 +5,12 @@ from .meta import Base
 
 
 class Category(Base):
+    """
+    A nested set model table that stores category information.
+
+    See
+    https://en.wikipedia.org/wiki/Nested_set_model
+    """
     __tablename__ = "category"
 
     id = Column(Integer(), primary_key=True, nullable=False, autoincrement=True, unique=True)
@@ -20,6 +26,12 @@ class Category(Base):
     stocks = relationship('CategoryStock')
 
     def append_child_category(self, dbsession, child):
+        """
+        Appends a child category to the current category.
+        :param dbsession:
+        :param child:
+        :return:
+        """
         if not child.id:
             right = self.right
 
@@ -54,6 +66,11 @@ class Category(Base):
             dbsession.expire(child)
 
     def remove(self, dbsession):
+        """
+        Delete the current category.
+        :param dbsession:
+        :return:
+        """
         size = self.node_count
         start = self.left
         end = self.right
@@ -72,6 +89,12 @@ class Category(Base):
         return count
 
     def move_to(self, dbsession, position):
+        """
+        Moves the current category the given position.
+        :param dbsession:
+        :param position:
+        :return:
+        """
         delta = self.left - position
 
         query = sqlalchemy.update(Category).values(
@@ -90,10 +113,22 @@ class Category(Base):
 
     @classmethod
     def get_last_category(cls, dbsession):
+        """
+        Get the category to the furthest right.
+        :param dbsession:
+        :return:
+        """
         return dbsession.query(Category).order_by(Category.right.desc()).first()
 
     @classmethod
     def create_root_category(cls, dbsession, name):
+        """
+        Creates a new root category node.
+
+        :param dbsession:
+        :param name:
+        :return:
+        """
         category = Category()
         category.name = name
 
@@ -112,6 +147,13 @@ class Category(Base):
 
     @classmethod
     def allocate_space(cls, dbsession, node, count):
+        """
+        Allocates space for a category of size count inside the given node.
+        :param dbsession:
+        :param node:
+        :param count: The total number of nodes in the branch
+        :return:
+        """
         size = count*2
 
         shift_right_query = sqlalchemy.update(Category).values(
@@ -136,6 +178,13 @@ class Category(Base):
 
     @classmethod
     def deallocate_space(cls, dbsession, index, nodes):
+        """
+        Deallocates space at the given index.  Nodes is the total size of the branch that is being deallocated.
+        :param dbsession:
+        :param index:
+        :param nodes:
+        :return:
+        """
         size = 2*nodes
 
         shift_left_query = sqlalchemy.update(Category).values({
@@ -182,6 +231,10 @@ class Category(Base):
 
     @property
     def child_count(self):
+        """
+        Returns the total number of children for the node.
+        :return:
+        """
         if self.id:
             return (self.right - self.left - 1) / 2
         else:
@@ -189,13 +242,25 @@ class Category(Base):
 
     @property
     def node_count(self):
+        """
+        Returns the total number of nodes in the branch.  AKA children + 1 for root node.
+        :return:
+        """
         return self.child_count + 1
 
     @property
     def size(self):
+        """
+        Returns the amount of space that nodes need to be shifted to insert the given node.
+        :return:
+        """
         return (self.child_count*2) + 2
 
     def as_dict(self):
+        """
+        Returns the category as a json serializable dict.
+        :return:
+        """
         r = {
             'id': self.id,
             'name': self.name,

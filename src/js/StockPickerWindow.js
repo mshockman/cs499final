@@ -54,6 +54,9 @@ const TEMPLATE = `
 `;
 
 
+/**
+ * Creats a modal dialog window for selecting a single stock.
+ */
 export default class StockPickerWindow {
     constructor(category) {
         this.$element = $(TEMPLATE);
