@@ -176,6 +176,12 @@ return /******/ (function(modules) { // webpackBootstrap
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/polyfill */ "./node_modules/@babel/polyfill/lib/index.js");
 /* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -299,7 +305,9 @@ function _apiReadTest() {
             $context = $("#read_test"), tickerField = $context.find('[name="ticker"]'), ticker = tickerField.val();
             url = "/api/stocks/read?ticker=".concat(ticker);
             _context.next = 4;
-            return fetch(url);
+            return fetch(url, {
+              headers: getBasicAuth()
+            });
 
           case 4:
             response = _context.sent;
@@ -336,7 +344,9 @@ function _apiListTest() {
             $context = $("#list_test"), tickers = $context.find("[name='tickers']").val(), params = csvToQueryString('tickers', tickers);
             url = "/api/stocks/list?".concat(params);
             _context2.next = 4;
-            return fetch(url);
+            return fetch(url, {
+              headers: getBasicAuth()
+            });
 
           case 4:
             response = _context2.sent;
@@ -373,7 +383,9 @@ function _apiTopTest() {
             $context = $("#top_test"), industry = $context.find("[name='industry']").val();
             url = "/api/stocks/top?industry=".concat(industry);
             _context3.next = 4;
-            return fetch(url);
+            return fetch(url, {
+              headers: getBasicAuth()
+            });
 
           case 4:
             response = _context3.sent;
@@ -404,6 +416,15 @@ function getFormData($context) {
   return r;
 }
 
+function getBasicAuth() {
+  var username = document.querySelector("#username-field").value,
+      password = document.querySelector("#password-field").value;
+  var data = btoa("".concat(username, ":").concat(password));
+  return {
+    'Authentication': "Basic ".concat(data)
+  };
+}
+
 function apiCreateTest() {
   return _apiCreateTest.apply(this, arguments);
 }
@@ -421,9 +442,9 @@ function _apiCreateTest() {
             _context4.next = 3;
             return fetch(url, {
               method: "POST",
-              headers: {
+              headers: _objectSpread({
                 'Content-Type': 'application/json'
-              },
+              }, getBasicAuth()),
               body: JSON.stringify(data)
             });
 
@@ -463,9 +484,9 @@ function _apiUpdateTest() {
             _context5.next = 3;
             return fetch(url, {
               method: "POST",
-              headers: {
+              headers: _objectSpread({
                 'Content-Type': 'application/json'
-              },
+              }, getBasicAuth()),
               body: JSON.stringify(data)
             });
 
@@ -504,7 +525,9 @@ function _apiDeleteTest() {
             $context = $('#delete_test'), tickers = $context.find("[name='tickers']").val(), params = csvToQueryString('tickers', tickers);
             url = "/api/stocks/delete?".concat(params);
             _context6.next = 4;
-            return fetch(url);
+            return fetch(url, {
+              headers: getBasicAuth()
+            });
 
           case 4:
             response = _context6.sent;

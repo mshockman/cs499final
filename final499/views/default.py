@@ -5,6 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from ..models import Stock, Category
 from ..forms import ValidationException
 from .stock_form import StockForm
+from ..accounts.decorators import account_login_required
 
 import json
 
@@ -23,6 +24,7 @@ SUCCESS_MESSAGES = {
 
 
 @view_config(route_name='home', renderer='../templates/home.jinja2')
+@account_login_required
 def list_stocks_view(request):
     error = request.GET.get('error', None)
     success = request.GET.get('success', None)
@@ -61,6 +63,7 @@ def list_stocks_view(request):
 
 
 @view_config(route_name='import_stock_file')
+@account_login_required
 def import_stock_file_view(request):
     """
     Imports a json file containing stock items into the stock table.
@@ -86,6 +89,7 @@ def import_stock_file_view(request):
 
 
 @view_config(route_name="export_stock_file", renderer="json")
+@account_login_required
 def export_stock_file_view(request):
     """
     Exports the stocks table into a json file.
@@ -113,6 +117,7 @@ def export_stock_file_view(request):
 
 
 @view_config(route_name="stock", renderer="../templates/stocks.jinja2", request_method="GET")
+@account_login_required
 def stock_view(request):
     """
     View for viewing a single stock.
@@ -142,6 +147,7 @@ def stock_view(request):
 
 
 @view_config(route_name="stock", renderer="../templates/stocks.jinja2", request_method="POST")
+@account_login_required
 def stock_view_post(request):
     """
     View for creating or updating stock information.
@@ -178,6 +184,7 @@ def stock_view_post(request):
 
 
 @view_config(route_name="delete_stock", request_method="POST")
+@account_login_required
 def delete_stock_view(request):
     """
     View for deleting a stock.

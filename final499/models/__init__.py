@@ -7,6 +7,8 @@ import zope.sqlalchemy
 # Base.metadata prior to any initialization routines
 from .stock import Stock, CategoryStock
 from .category import Category
+from .. import accounts
+from ..accounts.postgres_session import models as postgres_models
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

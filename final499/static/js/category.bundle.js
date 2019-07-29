@@ -191,6 +191,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var TEMPLATE = "\n<div class=\"modal\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Add & Remove Stocks</h3>\n            </div>\n            <div class=\"modal-body\">\n                <div>\n                    <div>\n                        <div class=\"mb-2\"><button type=\"button\" class=\"js-add-stock-btn\">Add Stock</button></div>\n                        <table class=\"table js-stock-table table-bordered\">\n                            <thead>\n                                <tr>\n                                    <th>Stock</th>\n                                    <th>Action</th>\n                                </th>\n                            </thead>    \n                            <tbody></tbody>\n                        </table>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"js-close-category-window\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n";
+/**
+ * Creates a modal window dialog for managing the stock information for a category.
+ */
 
 var CategoryWindow =
 /*#__PURE__*/
@@ -466,6 +469,9 @@ function debounce(fn, wait) {
   };
 }
 var TEMPLATE = "\n<div class=\"modal\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h3 class=\"modal-title\">Find Stock</h3>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"form-group\">\n                    <input type=\"text\" name=\"search\" class=\"form-control js-stock-search\" placeholder=\"Search\" />\n                </div>\n                <div>\n                    <ul class=\"js-stock-output stock-list\"></ul>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"js-stock-add-btn\">Add</button>\n                <button type=\"button\" class=\"js-close-stock-picker-window\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n";
+/**
+ * Creats a modal dialog window for selecting a single stock.
+ */
 
 var StockPickerWindow =
 /*#__PURE__*/
@@ -647,6 +653,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+/**
+ * Creates a selectable nested list of items.
+ */
 
 var TreeView =
 /*#__PURE__*/

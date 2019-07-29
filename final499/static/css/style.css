@@ -1,7 +1,7 @@
 .stock-output {
   padding: 0;
   margin: 0;
-  height: 300px;
+  height: 600px;
   border: 1px solid #ccc;
 }
 
@@ -38,6 +38,9 @@ body {
   background-color: #f9f9f9;
   margin-bottom: 1rem;
 }
+.main-menu span {
+  padding: 5px;
+}
 .main-menu a {
   padding: 5px;
 }
@@ -70,6 +73,20 @@ body {
 }
 .stock-list .stock-list-item.selected {
   background-color: cornflowerblue;
+}
+
+.user-login-container {
+  width: 26rem;
+  margin: 3rem auto;
+  border: 1px solid #bbb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 0 1.5rem #333;
+}
+
+.login-page {
+  background-color: #e0e0e0;
 }
 
 /*# sourceMappingURL=style.css.map */

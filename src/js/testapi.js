@@ -56,7 +56,9 @@ async function apiReadTest() {
 
     let url = `/api/stocks/read?ticker=${ticker}`;
 
-    let response = await fetch(url),
+    let response = await fetch(url, {
+            headers: getBasicAuth()
+        }),
         results = await response.json();
 
     $('#output').text(JSON.stringify(results));
@@ -70,7 +72,9 @@ async function apiListTest() {
 
     let url = `/api/stocks/list?${params}`;
 
-    let response = await fetch(url),
+    let response = await fetch(url, {
+            headers: getBasicAuth()
+        }),
         results = await response.json();
 
     $('#output').text(JSON.stringify(results));
@@ -83,7 +87,9 @@ async function apiTopTest() {
 
     let url = `/api/stocks/top?industry=${industry}`;
 
-    let response = await fetch(url),
+    let response = await fetch(url, {
+            headers: getBasicAuth()
+        }),
         results = await response.json();
 
     $('#output').text(JSON.stringify(results));
@@ -103,6 +109,18 @@ function getFormData($context) {
 }
 
 
+function getBasicAuth() {
+    let username = document.querySelector("#username-field").value,
+        password = document.querySelector("#password-field").value;
+
+    let data = btoa(`${username}:${password}`);
+
+    return {
+        'Authentication': `Basic ${data}`
+    }
+}
+
+
 async function apiCreateTest() {
     let $context = $('#create_test'),
         data = getFormData($context),
@@ -111,7 +129,8 @@ async function apiCreateTest() {
     let response = await fetch(url, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...getBasicAuth()
             },
             body: JSON.stringify(data)
         }),
@@ -129,7 +148,8 @@ async function apiUpdateTest() {
     let response = await fetch(url, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...getBasicAuth()
             },
             body: JSON.stringify(data)
         }),
@@ -146,7 +166,9 @@ async function apiDeleteTest() {
 
     let url = `/api/stocks/delete?${params}`;
 
-    let response = await fetch(url),
+    let response = await fetch(url, {
+            headers: getBasicAuth()
+        }),
         results = await response.json();
 
     $('#output').text(JSON.stringify(results));

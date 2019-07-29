@@ -3,11 +3,13 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
 from ..models import Category, Stock, CategoryStock
 from zope.sqlalchemy import mark_changed
+from ..accounts.decorators import account_login_required
 
 import transaction
 
 
 @view_config(route_name="category_view", renderer="../templates/browse_category.jinja2")
+@account_login_required
 def browse_categories_view(request):
     """
     View for browsing categories.
@@ -20,6 +22,7 @@ def browse_categories_view(request):
 
 
 @view_config(route_name="ajax_create_category", renderer="json")
+@account_login_required
 def ajax_create_category_view(request):
     """
     Ajax view that allows the user to create a category.
@@ -63,6 +66,7 @@ def ajax_create_category_view(request):
 
 
 @view_config(route_name="ajax_remove_category", renderer="json")
+@account_login_required
 def ajax_remove_category(request):
     """
     Ajax view that allows the user to remove a category.
@@ -101,6 +105,7 @@ def ajax_remove_category(request):
 
 
 @view_config(route_name="ajax_stock_search", renderer="json")
+@account_login_required
 def ajax_stock_search_view(request):
     """
     Ajax view for find a stock.
@@ -127,6 +132,7 @@ def ajax_stock_search_view(request):
 
 
 @view_config(route_name="ajax_get_category_view", renderer='json')
+@account_login_required
 def ajax_get_category_info_view(request):
     """
     Ajax view for getting category info.
@@ -144,6 +150,7 @@ def ajax_get_category_info_view(request):
 
 
 @view_config(route_name="ajax_add_stock_to_category", renderer="json")
+@account_login_required
 def ajax_add_stock_to_category(request):
     """
     Ajax view for adding a stock to a category.

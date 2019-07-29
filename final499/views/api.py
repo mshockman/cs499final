@@ -2,9 +2,11 @@ from pyramid.view import view_config
 from sqlalchemy.orm.exc import NoResultFound
 from ..models import Stock
 from final499.views.stock_form import StockForm, ValidationException
+from ..accounts.decorators import account_login_required, basic_auth_required
 
 
 @view_config(route_name="api_stocks_read", renderer="json")
+@basic_auth_required
 def api_stocks_read_view(request):
     """
     Returns a single stock for the given ticker.
@@ -27,6 +29,7 @@ def api_stocks_read_view(request):
 
 
 @view_config(route_name="api_stocks_create", renderer="json")
+@basic_auth_required
 def api_stocks_create_view(request):
     """
     Creates a new stock entry.
@@ -52,6 +55,7 @@ def api_stocks_create_view(request):
 
 
 @view_config(route_name="api_stocks_update", renderer="json")
+@basic_auth_required
 def api_stocks_update_view(request):
     """
     Updates an already existing stock entry.
@@ -93,6 +97,7 @@ def api_stocks_update_view(request):
 
 
 @view_config(route_name="api_stocks_delete", renderer="json")
+@basic_auth_required
 def api_stocks_delete_view(request):
     """
     Deletes one or more stock entries by ticker.
@@ -111,6 +116,7 @@ def api_stocks_delete_view(request):
 
 
 @view_config(route_name="api_stocks_list", renderer="json")
+@basic_auth_required
 def api_stocks_list_view(request):
     """
     Lists one or more stock entries by ticker.
@@ -139,6 +145,7 @@ def api_stocks_list_view(request):
 
 
 @view_config(route_name="api_stocks_top", renderer="json")
+@basic_auth_required
 def api_stocks_top_view(request):
     """
     Returns the top 5 stocks for an industry.
@@ -166,6 +173,7 @@ def api_stocks_top_view(request):
 
 
 @view_config(route_name='test_api_page', renderer="../templates/test_api.jinja2")
+@account_login_required
 def test_api_view(request):
     """
     Creates a view for testing the api.

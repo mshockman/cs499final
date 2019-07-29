@@ -14,6 +14,18 @@
 {% endblock %}
 
 {% block content %}
+    <div>
+        <div class="form-group">
+            <label class="control-label">Username: </label>
+            <input type="text" id="username-field" aria-label="Username" title="Username" name="username" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Password: </label>
+            <input type="password" id="password-field" aria-label="password" title="Password" name="password" class="form-control" />
+        </div>
+    </div>
+
     <div><label for="output">Response</label></div>
     <textarea id="output" readonly></textarea>
     <hr>
