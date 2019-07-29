@@ -7,6 +7,11 @@ import base64
 
 
 def account_login_required(fn):
+    """
+    Decorates a view to require that the user is logged in.
+    :param fn:
+    :return:
+    """
     @wraps(fn)
     def _wrapper(request, *args, **kwargs):
         if request.user is None:
@@ -18,6 +23,12 @@ def account_login_required(fn):
 
 
 def basic_auth_required(fn):
+    """
+    Decorates a view to require basic authentication.
+
+    :param fn:
+    :return:
+    """
     @wraps(fn)
     def _wrapper(request, *args, **kwargs):
         authentication = request.headers.get('Authentication', None)

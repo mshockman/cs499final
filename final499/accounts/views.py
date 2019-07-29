@@ -5,6 +5,9 @@ from final499.accounts.models import User
 
 
 class AuthenticationViews(object):
+    """
+    Views to handle logging in and logging out.
+    """
     def __init__(self, request):
         self.request = request
 

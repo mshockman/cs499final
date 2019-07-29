@@ -4,6 +4,9 @@ from sqlalchemy import Column, String, Integer, DateTime, Text, func
 
 
 class Session(Base):
+    """
+    Used to store session information in the database.
+    """
     __tablename__ = "session"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)

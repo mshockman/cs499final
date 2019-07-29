@@ -1,3 +1,7 @@
+"""
+Creates a session that stores information in a postgres database table.
+"""
+
 from .session import postgres_session_factory
 from .models import Session
 
