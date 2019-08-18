@@ -3,14 +3,8 @@ layout: default
 ---
 
 
-<style>
-    .test {
-        width: 800px;
-    }
-</style>
-
 # Self Assessment
-<pre style="white-space: pre-wrap">
+
 Over the course of my computer science education at Southern New Hampshire University, I have been introduced to a variety of concepts and technologies that would make me a great asset for any computer science career.  Not only have I been introduced to many different program languages such as Java and C++, but I have also mastered some as well such as Python, JavaScript, HTML and CSS thanks to a combination of my education and my current job.  I have also learned how to effectively plan out a project, collaborate in a team environment and communicate effectively with stakeholders over my education.  Using tools like git, GitHub and code reviews I can partition my work with other people and merge them back together when it is complete.  This allows me to effectively collaborate with multiple people on the same project.  Using project management frameworks like scrum and user-experience design I have also learned how to manage a project to keep people on track and working towards a common goal to lead a project to completion and communicate effectively with stakeholders.
 
 My capstone demonstrated these strength and others over the course of the project.  In my first artifact I demonstrated proficiency in software design and engineering by migrating my final project that I completed in CS-340 to a different technology stack.  This project was a simple rest application that allowed the user to keep track of stock information via restful API calls.  Instead of python, bottle and mongo I choose to rebuild the project using Python, Pyramid and Postgres.  This showcased skills in improving a piece of software, expanding the project complexity and transferring a project to a different language and framework.
@@ -18,7 +12,6 @@ My capstone demonstrated these strength and others over the course of the projec
 In the next artifact I showcased my skills when dealing with algorithms and data structures.  I did this by continue to add features to my final from CS-340.  The feature I choose to add was a way add stock into different nested categories.  Essentially a file like structure inside the database.  The hardest part when dealing with hierarchical data inside of a database is selecting a category and all subcategories efficiently.  You can easily select a single category with a join statement but to select all sub items as well you would have to recursively lookup subcategories and perform multiple statements.  This is extremely in efficient.  To improve this, I implement the nest set pattern inside by software.  In the nested set pattern, you assign every node in your tree a left and a right column.  These columns are integers that identify the range of all their children.  So if a node as one child, its left and right values would be 1 and 4 and it’s child left and right values would be 2 and 3.  This way you can efficiently look up subcategories by checking to see if a category inside a specific range of values.
 
 Finally, for my third artifact I needed to showcase my skills with databases.  Since my first two artifacts already made heavy use of database this requirement was already met but I decided to add other features to the project to continue showcasing my skills.  The feature I choose to implement was user authentication as any real-world project would need to authenticate its requests.   This feature added a new table to the project that stored a user username and a hashed and salted version of their password using bcrypt.  I also added basic authentication to authorize the restful requests.  This demonstrated now only a proficiency in databases by in security as well.  With this my project was completed which demonstrated my skills building web applications with a full stack environment.
-</pre>
 
 # Artifact 1
 
@@ -81,6 +74,7 @@ Finally, I added user authentication to the project.  This feature required a br
 
 The biggest challenge that I faced when improving this software was implanting the nested set model.  I had to create helper functions in python to handle the common tasks of inserting and deleting categories because extra care needs to be made to ensure that the left and the right columns don’t fall out of sync.  Anther aspect that was extremely interesting to research was how to securely store passwords in a database.  I already knew previously that it was a bad idea to store passwords in a database as raw text, but I never thought about the idea of salting the passwords before encrypting.  Now that I’ve read about them it makes perfect sense as otherwise you would just need to do a join against common passwords to break into a lot of peoples accounts.
 
+---
 
 Citations
 Nested Set Model: the best approach to deal with hierarchical data. (2017). Coderwall. Retrieved 29 July 2019, from https://coderwall.com/p/ohomlg/nested-set-model-the-best-approach-to-deal-with-hierarchical-data
