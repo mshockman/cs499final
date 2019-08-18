@@ -2,4 +2,85 @@
 layout: default
 ---
 
-Hello World!
+
+<style>
+    .test {
+        width: 800px;
+    }
+</style>
+
+# Self Assessment
+<pre style="white-space: pre-wrap">
+Over the course of my computer science education at Southern New Hampshire University, I have been introduced to a variety of concepts and technologies that would make me a great asset for any computer science career.  Not only have I been introduced to many different program languages such as Java and C++, but I have also mastered some as well such as Python, JavaScript, HTML and CSS thanks to a combination of my education and my current job.  I have also learned how to effectively plan out a project, collaborate in a team environment and communicate effectively with stakeholders over my education.  Using tools like git, GitHub and code reviews I can partition my work with other people and merge them back together when it is complete.  This allows me to effectively collaborate with multiple people on the same project.  Using project management frameworks like scrum and user-experience design I have also learned how to manage a project to keep people on track and working towards a common goal to lead a project to completion and communicate effectively with stakeholders.
+
+My capstone demonstrated these strength and others over the course of the project.  In my first artifact I demonstrated proficiency in software design and engineering by migrating my final project that I completed in CS-340 to a different technology stack.  This project was a simple rest application that allowed the user to keep track of stock information via restful API calls.  Instead of python, bottle and mongo I choose to rebuild the project using Python, Pyramid and Postgres.  This showcased skills in improving a piece of software, expanding the project complexity and transferring a project to a different language and framework.
+
+In the next artifact I showcased my skills when dealing with algorithms and data structures.  I did this by continue to add features to my final from CS-340.  The feature I choose to add was a way add stock into different nested categories.  Essentially a file like structure inside the database.  The hardest part when dealing with hierarchical data inside of a database is selecting a category and all subcategories efficiently.  You can easily select a single category with a join statement but to select all sub items as well you would have to recursively lookup subcategories and perform multiple statements.  This is extremely in efficient.  To improve this, I implement the nest set pattern inside by software.  In the nested set pattern, you assign every node in your tree a left and a right column.  These columns are integers that identify the range of all their children.  So if a node as one child, its left and right values would be 1 and 4 and it’s child left and right values would be 2 and 3.  This way you can efficiently look up subcategories by checking to see if a category inside a specific range of values.
+
+Finally, for my third artifact I needed to showcase my skills with databases.  Since my first two artifacts already made heavy use of database this requirement was already met but I decided to add other features to the project to continue showcasing my skills.  The feature I choose to implement was user authentication as any real-world project would need to authenticate its requests.   This feature added a new table to the project that stored a user username and a hashed and salted version of their password using bcrypt.  I also added basic authentication to authorize the restful requests.  This demonstrated now only a proficiency in databases by in security as well.  With this my project was completed which demonstrated my skills building web applications with a full stack environment.
+</pre>
+
+# Artifact 1
+
+For my first enhancement I choose to improve upon the final project I completed in the class CS-340.  In this class I created a program that allowed the user to keep track of and display stock information for restful API.  This program was written in python and used bottle as its web framework and Mongo as its database.  I choose this program because I am confident am by web development skills and because I noticed several glaring flaws in this programs design.  The first was its lack of a UI for the user to browse and make changes without having to write out a rest call.  The second is that none of the rest calls do any validation on the users input to ensure any kind of structure.  It does not check to see if the json object that is passed as any of the required fields and simple throws the object into the mongo database.  To showcase by skills in software design and engineering I intend to rectify this issue.
+
+To start fixing this issue I decided to rework the entire program from the ground up using Pyramid as the web framework and Postgres and my database.  I choose Postgres instead of Mongo because it allows me to more easily enforce a database structure and for this kind of project that has a set number of fields the flexibility of Mongo doesn’t gain us anything.  Also, by rewritten this software using a different framework I was able to showcase my skills transferring a piece of software to a new framework.
+
+Next I used the Jinja2 templating language and create a few simple web pages that allowed me to create, read update and delete stocks through a web browser.  Each page had a corresponding view that handled the backend logic for the page.  The entire project adheres to a model view controller schema.  By building a GUI to go along side the rest calls from the original project I showcased my skills at improving a piece of software and expanding a project complexity.  Finally, I recreated the rest calls from the pervious project in the new project.  These calls work the same as they did in the previous piece of software, but the biggest change is that they now validate the fields before inserting them into the database.  If the validation fails a json object containing the error is returned to the user.  This will help prevent invalid entries from being added to the database.
+
+The biggest challenge that I faced why improving this software was finding an efficient way to validate a form that had a lot of fields. A ton of ifs statements quickly becomes unwieldy.   I eventually decided on creating a series of helper classes called Form and Field.  The Field class stores callback functions for validating a single form field.  It receives the fields value and raises a validation exception if validation fails.  The form class is a collection of many of these fields.  It takes the form data and returns a new dictionary object of the cleaned data if it all passes validation.  If it fails a new form is created with the original data, the invalid data and the exceptions attached to it that can be used to render the error back to the user.  The convenient thing about this classes is that they could also be used for validating the restful API calls with very little changes. The only thing that needed to be added was a method to convert a validation exception into a json serializable object.
+
+Going forward I would like to add a way to authenticate these requests.  In the real world an API wouldn’t just allow anyone who happens to know the URL to make changes.  They would require user authentication.  Before by final project I would like to add that.
+
+
+
+# Artifact 2
+
+
+For the category of Algorithms and Data Structures I choose to continue updating the artifact from CS-340.  This artifact started out as a simple program that allowed the user to keep track of stock information via restful API calls.  I updated in the previous category to have a web interface and to use Pyramid and Postgres instead of Bottle and Mongo.  In this update I added a method to categorize stocks.  In the UI a user can create a new category and can add one or more stocks to the category.  Categories can be nested.  For example, the user might have a social media category inside of the tech category.
+
+I selected this artifact for several reasons.  The first is that I could continue building upon the first project to create an even more impressive final artifact.  The second is because this data structure is also saved to a database, so it builds upon the objectives that need to be shown in the next artifact, databases.  The third is because it gives me the opportunity to build an efficient algorithm for storing nested sets in a relational database.
+
+The biggest issues with storing category information in a relational database are retrieving them efficiently.  Let’s say for example you wanted to retrieve all items in category 1 and all its subcategories.  Items have a foreign key to an association table that links items to one or more categories.  You can easily use a join to retrieve all items in the top-level category, but you run into trouble retrieving items in the subcategories.  You need a recursive lookup, but most relational databases don’t have this functionality.  So, what are your options?  You could recursively make a database request for every category and then look up the items in each category separately.  This method works but it is very inefficient.  What we need is a way to perform this kind of lookup in a single request so how can we do that?  Enter the nested set model algorithm and data structure.  This algorithm adds a left and a right column to our category table and categories are assigned incrementing values to these columns.  To assign values to the left and right columns start with the root node and follow the following pseudocode recursively.
+
+```
+Function assign_left_and_right_values(node, index=1):
+	If node has no children:
+		Node.left = index
+		Node.right = index + 1
+		Index += 2
+	Else if node has children:
+		Node.left = index
+		Index += 1
+		For each child in children:
+			Index = Assign_left_and_right_values(child, index)
+		Node.right = index
+		Index += 1
+	Return Index
+```
+
+If you follow this algorithm correctly you should end up with a database structure that looks like this.
+
+# image placeholder node list
+
+Now if you want to retrieve all items inside category A you can just join items by their category and check to see if left >= 1 and right <= 8.  This allows you to perform lookup in a single request and is much more efficient.
+
+This pattern looks great for lookups, but its biggest challenge was ensuring that the left and right values remain correct.  Whenever you delete or insert into the database now you must remember to shift the left and the right values of every node accordingly.  To handle this, I created several helper methods on my category model that do just that.  All inserts and deletes in the category table go though these methods and they ensure correctness.
+
+
+# Artifact 3
+
+
+For my third artifact I choose to continue improving upon the final project of CS-340.  In CS-340 we learned how to use Mongo and Python to create a simple restful API.  In the original program the user was able to create, read, update and delete stock information via a restful API request.  I choose this project for several reasons.  The first was because this program was already using a database, so it gave me the opportunity to showcase my skills when it comes to creating and maintaining a database. The second was that the idea of a stock tracking application was complex enough that there are multiple features that we can logically add to this type of project.  The third was that there were several glaring flaws in the original project.  In CS-340 the only requirements for the final project was to create an application where the user can create, read, update and delete stock information via a restful API request.  It didn’t ask us to validate the user input or authenticate the user request.  It also didn’t ask us to provide any kind of graphical user interface for the user.  In a “real” project these would be a necessity and the lack of these features provided a good opportunity go showcase my skills by adding them.
+
+The first thing I did to showcase my skills was to migrate the data in the mongo database to Postgres.  To accomplish this, I created the stock table in our Postgres database.  The stock table contains rows of all our stocks and columns for every field that is needed to describe the stock.  The table contains the common fields id, created and last_modified alongside an additional field ticker.  The id field acts as the primary key for the entire table and is an integer that auto increments whenever a new row is inserted.  The created and last_modified columns are timestamps that are automatically set to the current time when the table is either created or updated respectively.  The ticker field is another unique column on the table the acts as a natural key for the stock.  The rest of the columns are optional and provide extra detail to describe the stock.
+
+The next feature that I added to this application was a way to allow the user to categorize stocks.  I also wanted the user to be able to nest categorize inside each other resembling a file structure and stocks should be able to belong to more than one category.  In order to accomplish this, I added two new tables to our database, “category” and “category_stock”.  The “category” table contains meta data about the category itself.  On top of common fields like id, created and last_modifed it contained the fields name, parent_category_id, left and right.  Name should be self-explanatory and describes name of the category.  Parent_category_id is a nullable foreign key field that contains the id of the categories parent if it is not a root node.  Left and right are integers that are used to help optimize the lookups of items in a subcategory.  They are described in the nested set model and are a common way to handle hierarchical data in a relational database.  Finally, the category_stock table is simply an association table that associates stocks to their categories.  It contains the standard columns and foreign keys to both the stock and category.
+
+Finally, I added user authentication to the project.  This feature required a brand-new table to store user account information.  The table contains the user’s email, first name, last name, and their password.  The password is stored as a one way has using bcrypt and is salted.  The password is stored in the format password_hash|salt.  Salts are extra randomly generated characters that are appended to the end of the password.  Salts ensure that two users with the same password don’t have the same hash in the database.  This helps prevent rainbow table lookups if the database was ever exposed to hackers.  The security of this table is one of the most important as it is common for people to use the same login credentials across multiple sites.
+
+The biggest challenge that I faced when improving this software was implanting the nested set model.  I had to create helper functions in python to handle the common tasks of inserting and deleting categories because extra care needs to be made to ensure that the left and the right columns don’t fall out of sync.  Anther aspect that was extremely interesting to research was how to securely store passwords in a database.  I already knew previously that it was a bad idea to store passwords in a database as raw text, but I never thought about the idea of salting the passwords before encrypting.  Now that I’ve read about them it makes perfect sense as otherwise you would just need to do a join against common passwords to break into a lot of peoples accounts.
+
+
+Citations
+Nested Set Model: the best approach to deal with hierarchical data. (2017). Coderwall. Retrieved 29 July 2019, from https://coderwall.com/p/ohomlg/nested-set-model-the-best-approach-to-deal-with-hierarchical-data
