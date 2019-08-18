@@ -3,7 +3,7 @@ layout: default
 ---
 
 
-# Self Assessment
+# Self Assessment: Matthew J. Shockman
 
 Over the course of my computer science education at Southern New Hampshire University, I have been introduced to a variety of concepts and technologies that would make me a great asset for any computer science career.  Not only have I been introduced to many different program languages such as Java and C++, but I have also mastered some as well such as Python, JavaScript, HTML and CSS thanks to a combination of my education and my current job.  I have also learned how to effectively plan out a project, collaborate in a team environment and communicate effectively with stakeholders over my education.  Using tools like git, GitHub and code reviews I can partition my work with other people and merge them back together when it is complete.  This allows me to effectively collaborate with multiple people on the same project.  Using project management frameworks like scrum and user-experience design I have also learned how to manage a project to keep people on track and working towards a common goal to lead a project to completion and communicate effectively with stakeholders.
 
@@ -13,7 +13,10 @@ In the next artifact I showcased my skills when dealing with algorithms and data
 
 Finally, for my third artifact I needed to showcase my skills with databases.  Since my first two artifacts already made heavy use of database this requirement was already met but I decided to add other features to the project to continue showcasing my skills.  The feature I choose to implement was user authentication as any real-world project would need to authenticate its requests.   This feature added a new table to the project that stored a user username and a hashed and salted version of their password using bcrypt.  I also added basic authentication to authorize the restful requests.  This demonstrated now only a proficiency in databases by in security as well.  With this my project was completed which demonstrated my skills building web applications with a full stack environment.
 
-# Artifact 1
+## Code Review
+https://drive.google.com/file/d/1gFb5nE7v16hdTE28fuBwNoj-4Mhkvjtg/view
+
+## Artifact 1: Software design and engineering
 
 For my first enhancement I choose to improve upon the final project I completed in the class CS-340.  In this class I created a program that allowed the user to keep track of and display stock information for restful API.  This program was written in python and used bottle as its web framework and Mongo as its database.  I choose this program because I am confident am by web development skills and because I noticed several glaring flaws in this programs design.  The first was its lack of a UI for the user to browse and make changes without having to write out a rest call.  The second is that none of the rest calls do any validation on the users input to ensure any kind of structure.  It does not check to see if the json object that is passed as any of the required fields and simple throws the object into the mongo database.  To showcase by skills in software design and engineering I intend to rectify this issue.
 
@@ -27,7 +30,7 @@ Going forward I would like to add a way to authenticate these requests.  In the 
 
 
 
-# Artifact 2
+## Artifact 2: Algorithms and data structure
 
 
 For the category of Algorithms and Data Structures I choose to continue updating the artifact from CS-340.  This artifact started out as a simple program that allowed the user to keep track of stock information via restful API calls.  I updated in the previous category to have a web interface and to use Pyramid and Postgres instead of Bottle and Mongo.  In this update I added a method to categorize stocks.  In the UI a user can create a new category and can add one or more stocks to the category.  Categories can be nested.  For example, the user might have a social media category inside of the tech category.
@@ -54,14 +57,14 @@ Function assign_left_and_right_values(node, index=1):
 
 If you follow this algorithm correctly you should end up with a database structure that looks like this.
 
-# image placeholder node list
+![tree](images/tree.png)
 
 Now if you want to retrieve all items inside category A you can just join items by their category and check to see if left >= 1 and right <= 8.  This allows you to perform lookup in a single request and is much more efficient.
 
 This pattern looks great for lookups, but its biggest challenge was ensuring that the left and right values remain correct.  Whenever you delete or insert into the database now you must remember to shift the left and the right values of every node accordingly.  To handle this, I created several helper methods on my category model that do just that.  All inserts and deletes in the category table go though these methods and they ensure correctness.
 
 
-# Artifact 3
+## Artifact 3: Databases
 
 
 For my third artifact I choose to continue improving upon the final project of CS-340.  In CS-340 we learned how to use Mongo and Python to create a simple restful API.  In the original program the user was able to create, read, update and delete stock information via a restful API request.  I choose this project for several reasons.  The first was because this program was already using a database, so it gave me the opportunity to showcase my skills when it comes to creating and maintaining a database. The second was that the idea of a stock tracking application was complex enough that there are multiple features that we can logically add to this type of project.  The third was that there were several glaring flaws in the original project.  In CS-340 the only requirements for the final project was to create an application where the user can create, read, update and delete stock information via a restful API request.  It didn’t ask us to validate the user input or authenticate the user request.  It also didn’t ask us to provide any kind of graphical user interface for the user.  In a “real” project these would be a necessity and the lack of these features provided a good opportunity go showcase my skills by adding them.
@@ -70,7 +73,7 @@ The first thing I did to showcase my skills was to migrate the data in the mongo
 
 The next feature that I added to this application was a way to allow the user to categorize stocks.  I also wanted the user to be able to nest categorize inside each other resembling a file structure and stocks should be able to belong to more than one category.  In order to accomplish this, I added two new tables to our database, “category” and “category_stock”.  The “category” table contains meta data about the category itself.  On top of common fields like id, created and last_modifed it contained the fields name, parent_category_id, left and right.  Name should be self-explanatory and describes name of the category.  Parent_category_id is a nullable foreign key field that contains the id of the categories parent if it is not a root node.  Left and right are integers that are used to help optimize the lookups of items in a subcategory.  They are described in the nested set model and are a common way to handle hierarchical data in a relational database.  Finally, the category_stock table is simply an association table that associates stocks to their categories.  It contains the standard columns and foreign keys to both the stock and category.
 
-Finally, I added user authentication to the project.  This feature required a brand-new table to store user account information.  The table contains the user’s email, first name, last name, and their password.  The password is stored as a one way has using bcrypt and is salted.  The password is stored in the format password_hash{% raw %}|{% endraw %} salt.  Salts are extra randomly generated characters that are appended to the end of the password.  Salts ensure that two users with the same password don’t have the same hash in the database.  This helps prevent rainbow table lookups if the database was ever exposed to hackers.  The security of this table is one of the most important as it is common for people to use the same login credentials across multiple sites.
+Finally, I added user authentication to the project.  This feature required a brand-new table to store user account information.  The table contains the user’s email, first name, last name, and their password.  The password is stored as a one way has using bcrypt and is salted.  The password is stored in the format password_hash + salt.  Salts are extra randomly generated characters that are appended to the end of the password.  Salts ensure that two users with the same password don’t have the same hash in the database.  This helps prevent rainbow table lookups if the database was ever exposed to hackers.  The security of this table is one of the most important as it is common for people to use the same login credentials across multiple sites.
 
 The biggest challenge that I faced when improving this software was implanting the nested set model.  I had to create helper functions in python to handle the common tasks of inserting and deleting categories because extra care needs to be made to ensure that the left and the right columns don’t fall out of sync.  Anther aspect that was extremely interesting to research was how to securely store passwords in a database.  I already knew previously that it was a bad idea to store passwords in a database as raw text, but I never thought about the idea of salting the passwords before encrypting.  Now that I’ve read about them it makes perfect sense as otherwise you would just need to do a join against common passwords to break into a lot of peoples accounts.
 
