@@ -13,8 +13,7 @@ In the next artifact I showcased my skills when dealing with algorithms and data
 
 Finally, for my third artifact I needed to showcase my skills with databases.  Since my first two artifacts already made heavy use of database this requirement was already met but I decided to add other features to the project to continue showcasing my skills.  The feature I choose to implement was user authentication as any real-world project would need to authenticate its requests.   This feature added a new table to the project that stored a user username and a hashed and salted version of their password using bcrypt.  I also added basic authentication to authorize the restful requests.  This demonstrated now only a proficiency in databases by in security as well.  With this my project was completed which demonstrated my skills building web applications with a full stack environment.
 
-##[Code Review](https://drive.google.com/file/d/1gFb5nE7v16hdTE28fuBwNoj-4Mhkvjtg/view)
-
+- [Code Review](https://drive.google.com/file/d/1gFb5nE7v16hdTE28fuBwNoj-4Mhkvjtg/view)
 - [Self Assessment](index.md)
 - [Artifact 1](artifact1.md)
 - [Artifact 2](artifact2.md)
